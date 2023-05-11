@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autobots.automanager.atualizadores.TelefoneAtualizador;
 import com.autobots.automanager.entitades.Telefone;
 import com.autobots.automanager.modelo.AdicionadorLinkTelefone;
 import com.autobots.automanager.modelo.Selecionador;
-import com.autobots.automanager.modelo.TelefoneAtualizador;
 import com.autobots.automanager.repositorios.TelefoneRepositorio;
 
 @RestController

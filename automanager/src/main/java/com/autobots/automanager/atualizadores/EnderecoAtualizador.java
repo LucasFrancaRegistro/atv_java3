@@ -1,8 +1,9 @@
-package com.autobots.automanager.modelo;
+package com.autobots.automanager.atualizadores;
 
 import java.util.List;
 
 import com.autobots.automanager.entitades.Endereco;
+import com.autobots.automanager.modelo.StringVerificadorNulo;
 
 
 
