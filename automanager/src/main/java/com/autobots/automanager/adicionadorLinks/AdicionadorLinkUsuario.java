@@ -1,4 +1,4 @@
-package com.autobots.automanager.modelo;
+package com.autobots.automanager.adicionadorLinks;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.autobots.automanager.controles.UsuarioControle;
 import com.autobots.automanager.entitades.Usuario;
+import com.autobots.automanager.modelo.AdicionadorLink;
 
 @Component
 public class AdicionadorLinkUsuario implements AdicionadorLink<Usuario> {

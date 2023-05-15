@@ -1,5 +1,7 @@
 package com.autobots.automanager.atualizadores;
 
+import java.util.Set;
+
 import com.autobots.automanager.entitades.Mercadoria;
 import com.autobots.automanager.modelo.DoubleVerificadorNulo;
 import com.autobots.automanager.modelo.LongVerificadorNulo;
@@ -36,6 +38,17 @@ public class MercadoriaAtualizador {
 			
 			
 			
+		}
+	}
+	public void atualizar(Set<Mercadoria> mercadorias, Set<Mercadoria> atualizacoes) {
+		for (Mercadoria atualizacao : atualizacoes) {
+			for (Mercadoria mercadoria : mercadorias) {
+				if (atualizacao.getId() != null) {
+					if (atualizacao.getId() == mercadoria.getId()) {
+						atualizar(mercadoria, atualizacao);
+					}
+				}
+			}
 		}
 	}
 }

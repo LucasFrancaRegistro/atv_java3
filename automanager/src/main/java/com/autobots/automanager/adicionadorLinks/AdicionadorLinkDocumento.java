@@ -1,4 +1,4 @@
-package com.autobots.automanager.modelo;
+package com.autobots.automanager.adicionadorLinks;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.autobots.automanager.controles.DocumentoControle;
 import com.autobots.automanager.entitades.Documento;
+import com.autobots.automanager.modelo.AdicionadorLink;
 
 
 @Component
