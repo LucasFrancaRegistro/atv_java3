@@ -11,33 +11,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkUsuario;
 import com.autobots.automanager.atualizadores.UsuarioAtualizador;
+import com.autobots.automanager.entitades.Empresa;
 import com.autobots.automanager.entitades.Usuario;
 import com.autobots.automanager.modelo.Selecionador;
+import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.UsuarioRepositorio;
 
-@RestController
-@RequestMapping("/usuario")
-public class UsuarioControle {
+public class EmpresaControle {
 	@Autowired
-	private UsuarioRepositorio repositorio;
+	private EmpresaRepositorio repositorio;
 	@Autowired
 	private AdicionadorLinkUsuario adicionadorLink;
 
-	@GetMapping("/usuario/{id}")
-	public ResponseEntity<Usuario> obterUsuario(@PathVariable long id) {
-		List<Usuario> usuarios = repositorio.findAll();
-		Usuario usuario = Selecionador.usuarioSelecionador(usuarios, id);
+	@GetMapping("/empresa/{id}")
+	public ResponseEntity<Empresa> obterEmpresa(@PathVariable long id) {
+		List<Empresa> empresas = repositorio.findAll();
+		Empresa empresa = Selecionador.clienteSelecionador(empresas, id);
 		if (usuario == null) {
-			ResponseEntity<Usuario> resposta = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			ResponseEntity<Empresa> resposta = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			return resposta;
 		} else {
 			adicionadorLink.adicionarLink(usuario);
-			ResponseEntity<Usuario> resposta = new ResponseEntity<Usuario>(usuario, HttpStatus.FOUND);
+			ResponseEntity<Empresa> resposta = new ResponseEntity<Empresa>(empresa, HttpStatus.FOUND);
 			return resposta;
 		}
 	}

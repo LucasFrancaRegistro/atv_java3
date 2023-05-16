@@ -6,13 +6,16 @@ import org.springframework.stereotype.Component;
 
 import com.autobots.automanager.entitades.Documento;
 import com.autobots.automanager.entitades.Endereco;
+import com.autobots.automanager.entitades.Servico;
 import com.autobots.automanager.entitades.Telefone;
 import com.autobots.automanager.entitades.Usuario;
+import com.autobots.automanager.entitades.Veiculo;
+import com.autobots.automanager.entitades.Venda;
 
 
 @Component
 public class Selecionador {
-	public static Usuario clienteSelecionador(List<Usuario> usuarios, long id) {
+	public static Usuario usuarioSelecionador(List<Usuario> usuarios, long id) {
 		Usuario selecionado = null;
 		for (Usuario usuario : usuarios) {
 			if (usuario.getId() == id) {
@@ -48,4 +51,32 @@ public class Selecionador {
 		}
 		return selecionado;
 	}
+	public static Venda vendaSelecionador(List<Venda> vendas, long id) {
+		Venda selecionado = null;
+		for (Venda venda : vendas) {
+			if (venda.getId() == id) {
+				selecionado = venda;
+			}
+		}
+		return selecionado;
+	}
+	public static Servico servicoSelecionador(List<Servico> servicos, long id) {
+		Servico selecionado = null;
+		for (Servico servico : servicos) {
+			if (servico.getId() == id) {
+				selecionado = servico;
+			}
+		}
+		return selecionado;
+	}
+	public static Veiculo veiculoSelecionador(List<Veiculo> veiculos, long id) {
+		Veiculo selecionado = null;
+		for (Veiculo veiculo : veiculos) {
+			if (veiculo.getId() == id) {
+				selecionado = veiculo;
+			}
+		}
+		return selecionado;
+	}
+	
 }
