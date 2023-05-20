@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autobots.automanager.adicionadorLinks.AdicionadorLinkCredencial;
 import com.autobots.automanager.atualizadores.CredencialAtualizador;
-import com.autobots.automanager.atualizadores.EmailAtualizador;
 import com.autobots.automanager.entitades.Credencial;
-import com.autobots.automanager.entitades.Email;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.CredencialRepositorio;
-import com.autobots.automanager.repositorios.EmailRepositorio;
 
 @RestController
 @RequestMapping("/credencial")
@@ -45,7 +43,7 @@ public class CredencialControle {
 	}
 
 	@GetMapping("/credencials")
-	public ResponseEntity<List<Credencial>> obterCredencials() {
+	public ResponseEntity<List<Credencial>> obterCredenciais() {
 		List<Credencial> credencials = repositorio.findAll();
 		if (credencials.isEmpty()) {
 			ResponseEntity<List<Credencial>> resposta = new ResponseEntity<>(HttpStatus.NOT_FOUND);

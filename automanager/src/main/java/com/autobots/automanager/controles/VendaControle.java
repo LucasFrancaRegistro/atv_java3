@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.autobots.automanager.atualizadores.EmpresaAtualizador;
+import com.autobots.automanager.adicionadorLinks.AdicionadorLinkVenda;
 import com.autobots.automanager.atualizadores.VendaAtualizador;
-import com.autobots.automanager.entitades.Empresa;
 import com.autobots.automanager.entitades.Venda;
 import com.autobots.automanager.modelo.Selecionador;
-import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.VendaRepositorio;
 
 @RestController

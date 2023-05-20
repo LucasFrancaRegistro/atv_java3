@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autobots.automanager.adicionadorLinks.AdicionadorLinkServico;
 import com.autobots.automanager.atualizadores.ServicoAtualizador;
-import com.autobots.automanager.atualizadores.VeiculoAtualizador;
 import com.autobots.automanager.entitades.Servico;
-import com.autobots.automanager.entitades.Veiculo;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.ServicoRepositorio;
-import com.autobots.automanager.repositorios.VeiculoRepositorio;
 
 @RestController
 @RequestMapping("/servico")
@@ -33,7 +31,7 @@ public class ServicoControle {
 	@GetMapping("/servico/{id}")
 	public ResponseEntity<Servico> obterServico(@PathVariable long id) {
 		List<Servico> servicos = repositorio.findAll();
-		Servico servico = Selecionador.veiculoSelecionador(veiculos, id);
+		Servico servico = Selecionador.servicoSelecionador(servicos, id);
 		if (servico == null) {
 			ResponseEntity<Servico> resposta = new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			return resposta;

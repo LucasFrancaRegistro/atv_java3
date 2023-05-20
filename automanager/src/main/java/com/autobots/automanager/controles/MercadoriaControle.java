@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autobots.automanager.adicionadorLinks.AdicionadorLinkMercadoria;
 import com.autobots.automanager.atualizadores.MercadoriaAtualizador;
-import com.autobots.automanager.atualizadores.ServicoAtualizador;
 import com.autobots.automanager.entitades.Mercadoria;
-import com.autobots.automanager.entitades.Servico;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.MercadoriaRepositorio;
-import com.autobots.automanager.repositorios.ServicoRepositorio;
 
 @RestController
 @RequestMapping("/mercadoria")

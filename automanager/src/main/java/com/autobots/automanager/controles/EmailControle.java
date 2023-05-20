@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autobots.automanager.adicionadorLinks.AdicionadorLinkEmail;
 import com.autobots.automanager.atualizadores.EmailAtualizador;
-import com.autobots.automanager.atualizadores.VeiculoAtualizador;
 import com.autobots.automanager.entitades.Email;
-import com.autobots.automanager.entitades.Veiculo;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.EmailRepositorio;
-import com.autobots.automanager.repositorios.VeiculoRepositorio;
 
 @RestController
 @RequestMapping("/email")
