@@ -1,6 +1,8 @@
 package com.autobots.automanager;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -30,7 +32,12 @@ public class AutomanagerApplication implements CommandLineRunner {
 	private RepositorioEmpresa repositorioEmpresa;
 
 	public static void main(String[] args) {
-		SpringApplication.run(AutomanagerApplication.class, args);
+		Map<String, Object> configuracao = new HashMap<>();
+		configuracao.put("server.port", "9080");
+		SpringApplication app = new SpringApplication(AutomanagerApplication.class);
+		app.setDefaultProperties(configuracao);
+		app.run(args);
+		
 	}
 
 	@Override

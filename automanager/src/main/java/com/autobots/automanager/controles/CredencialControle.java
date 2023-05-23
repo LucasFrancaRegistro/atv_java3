@@ -28,7 +28,7 @@ public class CredencialControle {
 	@Autowired
 	private AdicionadorLinkCredencial adicionadorLink;
 
-	@GetMapping("/credencia/{id}")
+	@GetMapping("/credencial/{id}")
 	public ResponseEntity<Credencial> obterCredencial(@PathVariable long id) {
 		List<Credencial> credencials = repositorio.findAll();
 		Credencial credencial = Selecionador.credencialSelecionador(credencials, id);

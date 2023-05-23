@@ -21,14 +21,14 @@ import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.CredencialUsuarioSenhaRepositorio;
 
 @RestController
-@RequestMapping("/credencial")
+@RequestMapping("/credencialUsuarioSenha")
 public class CredencialUsuarioSenhaControle {
 	@Autowired
 	private CredencialUsuarioSenhaRepositorio repositorio;
 	@Autowired
 	private AdicionadorLinkCredencialUsuarioSenha adicionadorLink;
 
-	@GetMapping("/credencia/{id}")
+	@GetMapping("/credencial/{id}")
 	public ResponseEntity<CredencialUsuarioSenha> obterCredencialUsuarioSenha(@PathVariable long id) {
 		List<CredencialUsuarioSenha> credencials = repositorio.findAll();
 		CredencialUsuarioSenha credencial = Selecionador.credencialUsuarioSenhaSelecionador(credencials, id);
