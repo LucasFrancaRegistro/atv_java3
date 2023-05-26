@@ -17,6 +17,8 @@ import javax.persistence.OneToOne;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +36,7 @@ public class Venda extends RepresentationModel<Venda>{
 	@Column(nullable = false, unique = true)
 	private String identificacao;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@JsonBackReference
 	private Usuario cliente;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Usuario funcionario;
@@ -42,5 +45,6 @@ public class Venda extends RepresentationModel<Venda>{
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
 	private Set<Servico> servicos = new HashSet<>();
 	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@JsonBackReference
 	private Veiculo veiculo;
 }

@@ -16,6 +16,9 @@ import javax.persistence.OneToMany;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.autobots.automanager.enumeracoes.TipoVeiculo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +38,9 @@ public class Veiculo extends RepresentationModel<Veiculo>{
 	@Column(nullable = false)
 	private String placa;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@JsonBackReference
 	private Usuario proprietario;
 	@OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+	@JsonManagedReference
 	private Set<Venda> vendas = new HashSet<>();
 }
