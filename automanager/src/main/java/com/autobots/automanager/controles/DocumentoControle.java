@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkDocumento;
 import com.autobots.automanager.atualizadores.DocumentoAtualizador;
 import com.autobots.automanager.entitades.Documento;
+import com.autobots.automanager.entitades.Usuario;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.DocumentoRepositorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 
 @RestController
 @RequestMapping("/documento")
 public class DocumentoControle {
 	@Autowired
 	private DocumentoRepositorio repositorio;
+	@Autowired
+	private UsuarioRepositorio UsuarioRepositorio;
 	@Autowired
 	private AdicionadorLinkDocumento adicionadorLink;
 
@@ -55,10 +60,15 @@ public class DocumentoControle {
 		}
 	}
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarDocumento(@RequestBody Documento documento) {
+	@PostMapping("/cadastro/{id}")
+	public ResponseEntity<?> cadastrarDocumento(@RequestBody Documento documento, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (documento.getId() == null) {
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			Set<Documento> documentos = usuario.getDocumentos();
+			documentos.add(documento);
+			usuario.setDocumentos(documentos);
+			UsuarioRepositorio.save(usuario);
 			repositorio.save(documento);
 			status = HttpStatus.CREATED;
 		}
