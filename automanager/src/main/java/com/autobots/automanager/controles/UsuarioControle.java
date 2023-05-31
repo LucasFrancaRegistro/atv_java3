@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,15 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkUsuario;
 import com.autobots.automanager.atualizadores.UsuarioAtualizador;
+import com.autobots.automanager.entitades.Documento;
+import com.autobots.automanager.entitades.Empresa;
 import com.autobots.automanager.entitades.Usuario;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.UsuarioRepositorio;
+import com.autobots.automanager.repositorios.EmpresaRepositorio;
 
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioControle {
 	@Autowired
 	private UsuarioRepositorio repositorio;
+	@Autowired
+	private EmpresaRepositorio EmpresaRepositorio;
 	@Autowired
 	private AdicionadorLinkUsuario adicionadorLink;
 
@@ -55,11 +61,15 @@ public class UsuarioControle {
 		}
 	}
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarUsuario(@RequestBody Usuario usuario) {
+	@PostMapping("/cadastro/{id}")
+	public ResponseEntity<?> cadastrarUsuario(@RequestBody Usuario usuario, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (usuario.getId() == null) {
-			repositorio.save(usuario);
+			Empresa empresa = EmpresaRepositorio.getById(id);
+			Set<Usuario> usuarios = empresa.getUsuarios();
+			usuarios.add(usuario);
+			empresa.setUsuarios(usuarios);
+			EmpresaRepositorio.save(empresa);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
@@ -81,11 +91,20 @@ public class UsuarioControle {
 	}
 
 	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirUsuario(@RequestBody Usuario exclusao) {
+	public ResponseEntity<?> excluirUsuario(@RequestBody Usuario exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Usuario usuario = repositorio.getById(exclusao.getId());
 		if (usuario != null) {
-			repositorio.delete(usuario);
+			Empresa empresa = EmpresaRepositorio.getById(id);
+			Set<Usuario> usuarios = empresa.getUsuarios();
+			for (Usuario user: usuarios) {
+				if (user.getId() == exclusao.getId()) {
+					usuarios.remove(user);
+					break;
+				}
+			}
+			empresa.setUsuarios(usuarios);
+			EmpresaRepositorio.save(empresa);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);

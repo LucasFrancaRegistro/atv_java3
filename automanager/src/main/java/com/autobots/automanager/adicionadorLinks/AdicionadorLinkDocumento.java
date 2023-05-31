@@ -32,7 +32,7 @@ public class AdicionadorLinkDocumento implements AdicionadorLink<Documento>{
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(DocumentoControle.class)
-							.cadastrarDocumento(documento))
+							.cadastrarDocumento(documento, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -42,7 +42,7 @@ public class AdicionadorLinkDocumento implements AdicionadorLink<Documento>{
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(DocumentoControle.class)
-							.excluirDocumento(documento))
+							.excluirDocumento(documento, 1))
 					.withSelfRel();
 			documento.add(linkProprioDocumento);
 			documento.add(linkProprioDocumentos);
@@ -67,7 +67,7 @@ public class AdicionadorLinkDocumento implements AdicionadorLink<Documento>{
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(DocumentoControle.class)
-						.cadastrarDocumento(objeto))
+						.cadastrarDocumento(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -77,7 +77,7 @@ public class AdicionadorLinkDocumento implements AdicionadorLink<Documento>{
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(DocumentoControle.class)
-						.excluirDocumento(objeto))
+						.excluirDocumento(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioDocumentos);
 		objeto.add(linkProprioDocumento);

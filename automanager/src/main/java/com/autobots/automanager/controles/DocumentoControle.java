@@ -91,11 +91,21 @@ public class DocumentoControle {
 	}
 
 	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirDocumento(@RequestBody Documento exclusao) {
+	public ResponseEntity<?> excluirDocumento(@RequestBody Documento exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Documento documento = repositorio.getById(exclusao.getId());
 		if (documento != null) {
-			repositorio.delete(documento);
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			Set<Documento> documentos = usuario.getDocumentos();
+			
+			for (Documento doc: documentos) {
+				if (doc.getId() == exclusao.getId()) {
+					documentos.remove(doc);
+					break;
+				}
+			}
+			usuario.setDocumentos(documentos);
+			UsuarioRepositorio.save(usuario);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);
