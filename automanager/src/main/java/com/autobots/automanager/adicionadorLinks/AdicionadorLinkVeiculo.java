@@ -24,7 +24,7 @@ public class AdicionadorLinkVeiculo implements AdicionadorLink<Veiculo>{
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(VeiculoControle.class)
-							.excluirVeiculo(objeto))
+							.excluirVeiculo(objeto, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -34,7 +34,7 @@ public class AdicionadorLinkVeiculo implements AdicionadorLink<Veiculo>{
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(VeiculoControle.class)
-							.cadastrarVeiculo(objeto))
+							.cadastrarVeiculo(objeto, 1))
 					.withSelfRel();
 			Link linkProprioVeiculos = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -64,7 +64,7 @@ public class AdicionadorLinkVeiculo implements AdicionadorLink<Veiculo>{
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(VeiculoControle.class)
-						.cadastrarVeiculo(objeto))
+						.cadastrarVeiculo(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -74,7 +74,7 @@ public class AdicionadorLinkVeiculo implements AdicionadorLink<Veiculo>{
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(VeiculoControle.class)
-						.excluirVeiculo(objeto))
+						.excluirVeiculo(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioVeiculo);
 		objeto.add(linkProprioVeiculos);

@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkVenda;
 import com.autobots.automanager.atualizadores.VendaAtualizador;
+import com.autobots.automanager.entitades.Empresa;
 import com.autobots.automanager.entitades.Venda;
 import com.autobots.automanager.modelo.Selecionador;
+import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.VendaRepositorio;
 
 @RestController
@@ -25,6 +28,8 @@ import com.autobots.automanager.repositorios.VendaRepositorio;
 public class VendaControle {
 	@Autowired
 	private VendaRepositorio repositorio;
+	@Autowired
+	private EmpresaRepositorio EmpresaRepositorio;
 	@Autowired
 	private AdicionadorLinkVenda adicionadorLink;
 
@@ -56,10 +61,14 @@ public class VendaControle {
 	}
 
 	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarVenda(@RequestBody Venda venda) {
+	public ResponseEntity<?> cadastrarVenda(@RequestBody Venda venda, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (venda.getId() == null) {
-			repositorio.save(venda);
+			Empresa empresa = EmpresaRepositorio.getById(id);
+			Set<Venda> vendas = empresa.getVendas();
+			vendas.add(venda);
+			empresa.setVendas(vendas);
+			EmpresaRepositorio.save(empresa);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
@@ -81,11 +90,20 @@ public class VendaControle {
 	}
 
 	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirVenda(@RequestBody Venda exclusao) {
+	public ResponseEntity<?> excluirVenda(@RequestBody Venda exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Venda venda = repositorio.getById(exclusao.getId());
 		if (venda != null) {
-			repositorio.delete(venda);
+			Empresa empresa = EmpresaRepositorio.getById(id);
+			Set<Venda> vendas = empresa.getVendas();
+			for (Venda ven: vendas) {
+				if (ven.getId() == exclusao.getId()) {
+					vendas.remove(ven);
+					break;
+				}
+			}
+			empresa.setVendas(vendas);
+			EmpresaRepositorio.save(empresa);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);

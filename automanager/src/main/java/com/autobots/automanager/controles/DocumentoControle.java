@@ -69,7 +69,6 @@ public class DocumentoControle {
 			documentos.add(documento);
 			usuario.setDocumentos(documentos);
 			UsuarioRepositorio.save(usuario);
-			repositorio.save(documento);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
@@ -97,7 +96,6 @@ public class DocumentoControle {
 		if (documento != null) {
 			Usuario usuario = UsuarioRepositorio.getById(id);
 			Set<Documento> documentos = usuario.getDocumentos();
-			
 			for (Documento doc: documentos) {
 				if (doc.getId() == exclusao.getId()) {
 					documentos.remove(doc);

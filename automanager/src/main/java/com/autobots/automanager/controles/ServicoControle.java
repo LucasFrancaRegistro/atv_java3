@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,15 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkServico;
 import com.autobots.automanager.atualizadores.ServicoAtualizador;
+import com.autobots.automanager.entitades.Empresa;
 import com.autobots.automanager.entitades.Servico;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.ServicoRepositorio;
+import com.autobots.automanager.repositorios.EmpresaRepositorio;
 
 @RestController
 @RequestMapping("/servico")
 public class ServicoControle {
 	@Autowired
 	private ServicoRepositorio repositorio;
+	@Autowired
+	private EmpresaRepositorio EmpresaRepositorio;
 	@Autowired
 	private AdicionadorLinkServico adicionadorLink;
 
@@ -55,11 +60,15 @@ public class ServicoControle {
 		}
 	}
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarServico(@RequestBody Servico servico) {
+	@PostMapping("/cadastro/{id}")
+	public ResponseEntity<?> cadastrarServico(@RequestBody Servico servico, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (servico.getId() == null) {
-			repositorio.save(servico);
+			Empresa empresa = EmpresaRepositorio.getById(id);
+			Set<Servico> servicos = empresa.getServicos();
+			servicos.add(servico);
+			empresa.setServicos(servicos);
+			EmpresaRepositorio.save(empresa);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
@@ -80,12 +89,21 @@ public class ServicoControle {
 		return new ResponseEntity<>(status);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirServico(@RequestBody Servico exclusao) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirServico(@RequestBody Servico exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Servico servico = repositorio.getById(exclusao.getId());
 		if (servico != null) {
-			repositorio.delete(servico);
+			Empresa empresa = EmpresaRepositorio.getById(id);
+			Set<Servico> servicos = empresa.getServicos();
+			for (Servico ser: servicos) {
+				if (ser.getId() == exclusao.getId()) {
+					servicos.remove(ser);
+					break;
+				}
+			}
+			empresa.setServicos(servicos);
+			EmpresaRepositorio.save(empresa);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);

@@ -25,7 +25,7 @@ public class AdicionadorLinkVenda implements AdicionadorLink<Venda> {
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(VendaControle.class)
-							.excluirVenda(objeto))
+							.excluirVenda(objeto, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -35,7 +35,7 @@ public class AdicionadorLinkVenda implements AdicionadorLink<Venda> {
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(VendaControle.class)
-							.cadastrarVenda(objeto))
+							.cadastrarVenda(objeto, 1))
 					.withSelfRel();
 			Link linkProprioVendas = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -65,7 +65,7 @@ public class AdicionadorLinkVenda implements AdicionadorLink<Venda> {
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(VendaControle.class)
-						.cadastrarVenda(objeto))
+						.cadastrarVenda(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -75,7 +75,7 @@ public class AdicionadorLinkVenda implements AdicionadorLink<Venda> {
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(VendaControle.class)
-						.excluirVenda(objeto))
+						.excluirVenda(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioVenda);
 		objeto.add(linkProprioVendas);

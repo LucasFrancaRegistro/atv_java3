@@ -24,7 +24,7 @@ public class AdicionadorLinkServico implements AdicionadorLink<Servico>{
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(ServicoControle.class)
-							.excluirServico(objeto))
+							.excluirServico(objeto, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -34,7 +34,7 @@ public class AdicionadorLinkServico implements AdicionadorLink<Servico>{
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(ServicoControle.class)
-							.cadastrarServico(objeto))
+							.cadastrarServico(objeto, 1))
 					.withSelfRel();
 			Link linkProprioServicos = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -64,7 +64,7 @@ public class AdicionadorLinkServico implements AdicionadorLink<Servico>{
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(ServicoControle.class)
-						.cadastrarServico(objeto))
+						.cadastrarServico(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -74,7 +74,7 @@ public class AdicionadorLinkServico implements AdicionadorLink<Servico>{
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(ServicoControle.class)
-						.excluirServico(objeto))
+						.excluirServico(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioServico);
 		objeto.add(linkProprioServicos);

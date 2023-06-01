@@ -17,14 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkEndereco;
 import com.autobots.automanager.atualizadores.EnderecoAtualizador;
 import com.autobots.automanager.entitades.Endereco;
+import com.autobots.automanager.entitades.Usuario;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.EnderecoRepositorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 
 @RestController
 @RequestMapping("/endereco")
 public class EnderecoControle {
 	@Autowired
 	private EnderecoRepositorio repositorio;
+	@Autowired
+	private UsuarioRepositorio UsuarioRepositorio;
 	@Autowired
 	private AdicionadorLinkEndereco adicionadorLink;
 
@@ -55,11 +59,13 @@ public class EnderecoControle {
 		}
 	}
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarEndereco(@RequestBody Endereco endereco) {
+	@PostMapping("/cadastro/{id}")
+	public ResponseEntity<?> cadastrarEndereco(@RequestBody Endereco endereco, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (endereco != null) {
-			repositorio.save(endereco);
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			usuario.setEndereco(endereco);
+			UsuarioRepositorio.save(usuario);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
@@ -81,12 +87,14 @@ public class EnderecoControle {
 		return new ResponseEntity<>(status);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirEndereco(@RequestBody Endereco exclusao) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirEndereco(@RequestBody Endereco exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Endereco endereco = repositorio.getById(exclusao.getId());
 		if (endereco != null) {
-			repositorio.delete(endereco);
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			usuario.setEndereco(null);
+			UsuarioRepositorio.save(usuario);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);

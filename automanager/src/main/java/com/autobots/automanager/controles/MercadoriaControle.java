@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkMercadoria;
 import com.autobots.automanager.atualizadores.MercadoriaAtualizador;
+import com.autobots.automanager.entitades.Empresa;
 import com.autobots.automanager.entitades.Mercadoria;
 import com.autobots.automanager.modelo.Selecionador;
+import com.autobots.automanager.repositorios.EmpresaRepositorio;
 import com.autobots.automanager.repositorios.MercadoriaRepositorio;
 
 @RestController
@@ -25,6 +28,8 @@ import com.autobots.automanager.repositorios.MercadoriaRepositorio;
 public class MercadoriaControle {
 	@Autowired
 	private MercadoriaRepositorio repositorio;
+	@Autowired
+	private EmpresaRepositorio EmpresaRepositorio;
 	@Autowired
 	private AdicionadorLinkMercadoria adicionadorLink;
 
@@ -55,11 +60,15 @@ public class MercadoriaControle {
 		}
 	}
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarMercadoria(@RequestBody Mercadoria mercadoria) {
+	@PostMapping("/cadastro/{id}")
+	public ResponseEntity<?> cadastrarMercadoria(@RequestBody Mercadoria mercadoria, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (mercadoria.getId() == null) {
-			repositorio.save(mercadoria);
+			Empresa empresa = EmpresaRepositorio.getById(id);
+			Set<Mercadoria> mercadorias = empresa.getMercadorias();
+			mercadorias.add(mercadoria);
+			empresa.setMercadorias(mercadorias);
+			EmpresaRepositorio.save(empresa);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
@@ -81,11 +90,20 @@ public class MercadoriaControle {
 	}
 
 	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirMercadoria(@RequestBody Mercadoria exclusao) {
+	public ResponseEntity<?> excluirMercadoria(@RequestBody Mercadoria exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Mercadoria mercadoria = repositorio.getById(exclusao.getId());
 		if (mercadoria != null) {
-			repositorio.delete(mercadoria);
+			Empresa empresa = EmpresaRepositorio.getById(id);
+			Set<Mercadoria> mercadorias = empresa.getMercadorias();
+			for (Mercadoria mer: mercadorias) {
+				if (mer.getId() == exclusao.getId()) {
+					mercadorias.remove(mer);
+					break;
+				}
+			}
+			empresa.setMercadorias(mercadorias);
+			EmpresaRepositorio.save(empresa);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);

@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkVeiculo;
 import com.autobots.automanager.atualizadores.VeiculoAtualizador;
+import com.autobots.automanager.entitades.Usuario;
 import com.autobots.automanager.entitades.Veiculo;
 import com.autobots.automanager.modelo.Selecionador;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 import com.autobots.automanager.repositorios.VeiculoRepositorio;
 
 @RestController
@@ -25,6 +28,8 @@ import com.autobots.automanager.repositorios.VeiculoRepositorio;
 public class VeiculoControle {
 	@Autowired
 	private VeiculoRepositorio repositorio;
+	@Autowired
+	private UsuarioRepositorio UsuarioRepositorio;
 	@Autowired
 	private AdicionadorLinkVeiculo adicionadorLink;
 
@@ -55,11 +60,15 @@ public class VeiculoControle {
 		}
 	}
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarVeiculo(@RequestBody Veiculo veiculo) {
+	@PostMapping("/cadastro/{id}")
+	public ResponseEntity<?> cadastrarVeiculo(@RequestBody Veiculo veiculo, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (veiculo.getId() == null) {
-			repositorio.save(veiculo);
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			Set<Veiculo> veiculos = usuario.getVeiculos();
+			veiculos.add(veiculo);
+			usuario.setVeiculos(veiculos);
+			UsuarioRepositorio.save(usuario);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
@@ -80,12 +89,21 @@ public class VeiculoControle {
 		return new ResponseEntity<>(status);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirVeiculo(@RequestBody Veiculo exclusao) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirVeiculo(@RequestBody Veiculo exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Veiculo veiculo = repositorio.getById(exclusao.getId());
 		if (veiculo != null) {
-			repositorio.delete(veiculo);
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			Set<Veiculo> veiculos = usuario.getVeiculos();
+			for (Veiculo vei: veiculos) {
+				if (vei.getId() == exclusao.getId()) {
+					veiculos.remove(vei);
+					break;
+				}
+			}
+			usuario.setVeiculos(veiculos);
+			UsuarioRepositorio.save(usuario);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);

@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkEmail;
 import com.autobots.automanager.atualizadores.EmailAtualizador;
 import com.autobots.automanager.entitades.Email;
+import com.autobots.automanager.entitades.Usuario;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.EmailRepositorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 
 @RestController
 @RequestMapping("/email")
 public class EmailControle {
 	@Autowired
 	private EmailRepositorio repositorio;
+	@Autowired
+	private UsuarioRepositorio UsuarioRepositorio;
 	@Autowired
 	private AdicionadorLinkEmail adicionadorLink;
 
@@ -55,11 +60,15 @@ public class EmailControle {
 		}
 	}
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarEmail(@RequestBody Email email) {
+	@PostMapping("/cadastro/{id}")
+	public ResponseEntity<?> cadastrarEmail(@RequestBody Email email, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (email.getId() == null) {
-			repositorio.save(email);
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			Set<Email> emails = usuario.getEmails();
+			emails.add(email);
+			usuario.setEmails(emails);
+			UsuarioRepositorio.save(usuario);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
@@ -80,12 +89,21 @@ public class EmailControle {
 		return new ResponseEntity<>(status);
 	}
 
-	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirEmail(@RequestBody Email exclusao) {
+	@DeleteMapping("/excluir/{id}")
+	public ResponseEntity<?> excluirEmail(@RequestBody Email exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Email email = repositorio.getById(exclusao.getId());
 		if (email != null) {
-			repositorio.delete(email);
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			Set<Email> emails = usuario.getEmails();
+			for (Email obj: emails) {
+				if (obj.getId() == exclusao.getId()) {
+					emails.remove(obj);
+					break;
+				}
+			}
+			usuario.setEmails(emails);
+			UsuarioRepositorio.save(usuario);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);

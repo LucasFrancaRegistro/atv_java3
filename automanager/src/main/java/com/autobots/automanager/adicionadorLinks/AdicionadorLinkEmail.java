@@ -24,7 +24,7 @@ public class AdicionadorLinkEmail implements AdicionadorLink<Email>{
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(EmailControle.class)
-							.excluirEmail(objeto))
+							.excluirEmail(objeto, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -34,7 +34,7 @@ public class AdicionadorLinkEmail implements AdicionadorLink<Email>{
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(EmailControle.class)
-							.cadastrarEmail(objeto))
+							.cadastrarEmail(objeto, 1))
 					.withSelfRel();
 			Link linkProprioEmails = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -64,7 +64,7 @@ public class AdicionadorLinkEmail implements AdicionadorLink<Email>{
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(EmailControle.class)
-						.cadastrarEmail(objeto))
+						.cadastrarEmail(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -74,7 +74,7 @@ public class AdicionadorLinkEmail implements AdicionadorLink<Email>{
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(EmailControle.class)
-						.excluirEmail(objeto))
+						.excluirEmail(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioCredencial);
 		objeto.add(linkProprioCredenciais);

@@ -1,6 +1,7 @@
 package com.autobots.automanager.controles;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.autobots.automanager.adicionadorLinks.AdicionadorLinkCredencial;
 import com.autobots.automanager.atualizadores.CredencialAtualizador;
 import com.autobots.automanager.entitades.Credencial;
+import com.autobots.automanager.entitades.Usuario;
 import com.autobots.automanager.modelo.Selecionador;
 import com.autobots.automanager.repositorios.CredencialRepositorio;
+import com.autobots.automanager.repositorios.UsuarioRepositorio;
 
 @RestController
 @RequestMapping("/credencial")
 public class CredencialControle {
 	@Autowired
 	private CredencialRepositorio repositorio;
+	@Autowired
+	private UsuarioRepositorio UsuarioRepositorio;
 	@Autowired
 	private AdicionadorLinkCredencial adicionadorLink;
 
@@ -55,11 +60,15 @@ public class CredencialControle {
 		}
 	}
 
-	@PostMapping("/cadastro")
-	public ResponseEntity<?> cadastrarCredencial(@RequestBody Credencial credencial) {
+	@PostMapping("/cadastro/{id}")
+	public ResponseEntity<?> cadastrarCredencial(@RequestBody Credencial credencial, @PathVariable long id) {
 		HttpStatus status = HttpStatus.CONFLICT;
 		if (credencial.getId() == null) {
-			repositorio.save(credencial);
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			Set<Credencial> credenciais = usuario.getCredenciais();
+			credenciais.add(credencial);
+			usuario.setCredenciais(credenciais);
+			UsuarioRepositorio.save(usuario);
 			status = HttpStatus.CREATED;
 		}
 		return new ResponseEntity<>(status);
@@ -81,11 +90,20 @@ public class CredencialControle {
 	}
 
 	@DeleteMapping("/excluir")
-	public ResponseEntity<?> excluirCredencial(@RequestBody Credencial exclusao) {
+	public ResponseEntity<?> excluirCredencial(@RequestBody Credencial exclusao, @PathVariable long id) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		Credencial credencial = repositorio.getById(exclusao.getId());
 		if (credencial != null) {
-			repositorio.delete(credencial);
+			Usuario usuario = UsuarioRepositorio.getById(id);
+			Set<Credencial> credenciais = usuario.getCredenciais();
+			for (Credencial cred: credenciais) {
+				if (cred.getId() == exclusao.getId()) {
+					credenciais.remove(cred);
+					break;
+				}
+			}
+			usuario.setCredenciais(credenciais);
+			UsuarioRepositorio.save(usuario);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<>(status);

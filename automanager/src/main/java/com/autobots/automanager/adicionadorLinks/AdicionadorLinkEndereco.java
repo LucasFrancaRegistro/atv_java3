@@ -31,7 +31,7 @@ public class AdicionadorLinkEndereco implements AdicionadorLink<Endereco>{
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(EnderecoControle.class)
-							.cadastrarEndereco(endereco))
+							.cadastrarEndereco(endereco, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -41,7 +41,7 @@ public class AdicionadorLinkEndereco implements AdicionadorLink<Endereco>{
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(EnderecoControle.class)
-							.excluirEndereco(endereco))
+							.excluirEndereco(endereco, 1))
 					.withSelfRel();
 			endereco.add(linkProprioEndereco);
 			endereco.add(linkProprioEnderecos);
@@ -66,7 +66,7 @@ public class AdicionadorLinkEndereco implements AdicionadorLink<Endereco>{
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(EnderecoControle.class)
-						.cadastrarEndereco(objeto))
+						.cadastrarEndereco(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -76,7 +76,7 @@ public class AdicionadorLinkEndereco implements AdicionadorLink<Endereco>{
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(EnderecoControle.class)
-						.excluirEndereco(objeto))
+						.excluirEndereco(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioEndereco);
 		objeto.add(linkProprioEnderecos);

@@ -31,7 +31,7 @@ public class AdicionadorLinkTelefone implements AdicionadorLink<Telefone>{
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(TelefoneControle.class)
-							.cadastrarTelefone(telefone))
+							.cadastrarTelefone(telefone, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -41,7 +41,7 @@ public class AdicionadorLinkTelefone implements AdicionadorLink<Telefone>{
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(TelefoneControle.class)
-							.excluirTelefone(telefone))
+							.excluirTelefone(telefone, 1))
 					.withSelfRel();
 			telefone.add(linkProprioTelefone);
 			telefone.add(linkProprioTelefones);
@@ -66,7 +66,7 @@ public class AdicionadorLinkTelefone implements AdicionadorLink<Telefone>{
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(TelefoneControle.class)
-						.cadastrarTelefone(objeto))
+						.cadastrarTelefone(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -76,7 +76,7 @@ public class AdicionadorLinkTelefone implements AdicionadorLink<Telefone>{
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(TelefoneControle.class)
-						.excluirTelefone(objeto))
+						.excluirTelefone(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioTelefone);
 		objeto.add(linkProprioTelefones);

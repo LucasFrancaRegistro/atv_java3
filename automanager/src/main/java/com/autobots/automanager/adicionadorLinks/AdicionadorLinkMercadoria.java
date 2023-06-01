@@ -24,7 +24,7 @@ public class AdicionadorLinkMercadoria implements AdicionadorLink<Mercadoria>{
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(MercadoriaControle.class)
-							.excluirMercadoria(objeto))
+							.excluirMercadoria(objeto, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -34,7 +34,7 @@ public class AdicionadorLinkMercadoria implements AdicionadorLink<Mercadoria>{
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(MercadoriaControle.class)
-							.cadastrarMercadoria(objeto))
+							.cadastrarMercadoria(objeto, 1))
 					.withSelfRel();
 			Link linkProprioMercadorias = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -64,7 +64,7 @@ public class AdicionadorLinkMercadoria implements AdicionadorLink<Mercadoria>{
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(MercadoriaControle.class)
-						.cadastrarMercadoria(objeto))
+						.cadastrarMercadoria(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -74,7 +74,7 @@ public class AdicionadorLinkMercadoria implements AdicionadorLink<Mercadoria>{
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(MercadoriaControle.class)
-						.excluirMercadoria(objeto))
+						.excluirMercadoria(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioMercadoria);
 		objeto.add(linkProprioMercadorias);

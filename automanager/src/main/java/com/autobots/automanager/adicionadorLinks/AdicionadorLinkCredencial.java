@@ -24,7 +24,7 @@ public class AdicionadorLinkCredencial implements AdicionadorLink<Credencial>{
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(CredencialControle.class)
-							.excluirCredencial(objeto))
+							.excluirCredencial(objeto, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -34,7 +34,7 @@ public class AdicionadorLinkCredencial implements AdicionadorLink<Credencial>{
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(CredencialControle.class)
-							.cadastrarCredencial(objeto))
+							.cadastrarCredencial(objeto, 1))
 					.withSelfRel();
 			Link linkProprioCredenciais = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -64,7 +64,7 @@ public class AdicionadorLinkCredencial implements AdicionadorLink<Credencial>{
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(CredencialControle.class)
-						.cadastrarCredencial(objeto))
+						.cadastrarCredencial(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -74,7 +74,7 @@ public class AdicionadorLinkCredencial implements AdicionadorLink<Credencial>{
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(CredencialControle.class)
-						.excluirCredencial(objeto))
+						.excluirCredencial(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioCredencial);
 		objeto.add(linkProprioCredenciais);

@@ -25,7 +25,7 @@ public class AdicionadorLinkUsuario implements AdicionadorLink<Usuario> {
 			Link linkProprioExcluir = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(UsuarioControle.class)
-							.excluirUsuario(usuario))
+							.excluirUsuario(usuario, 1))
 					.withSelfRel();
 			Link linkProprioAtualizar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -35,7 +35,7 @@ public class AdicionadorLinkUsuario implements AdicionadorLink<Usuario> {
 			Link linkProprioCadastrar = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
 							.methodOn(UsuarioControle.class)
-							.cadastrarUsuario(usuario))
+							.cadastrarUsuario(usuario, 1))
 					.withSelfRel();
 			Link linkProprioUsuarios = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
@@ -65,7 +65,7 @@ public class AdicionadorLinkUsuario implements AdicionadorLink<Usuario> {
 		Link linkProprioCadastrar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(UsuarioControle.class)
-						.cadastrarUsuario(objeto))
+						.cadastrarUsuario(objeto, 1))
 				.withRel("cadastrar");
 		Link linkProprioAtualizar = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
@@ -75,7 +75,7 @@ public class AdicionadorLinkUsuario implements AdicionadorLink<Usuario> {
 		Link linkProprioExcluir = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
 						.methodOn(UsuarioControle.class)
-						.excluirUsuario(objeto))
+						.excluirUsuario(objeto, 1))
 				.withRel("excluir");
 		objeto.add(linkProprioUsuario);
 		objeto.add(linkProprioUsuarios);
