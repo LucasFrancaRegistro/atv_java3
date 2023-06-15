@@ -1,8 +1,8 @@
 package com.autobots.automanager.repositorios;
 
+import com.autobots.automanager.entidades.Email;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.autobots.automanager.entitades.Email;
-public interface EmailRepositorio extends JpaRepository<Email, Long>{
+public interface EmailRepositorio extends JpaRepository<Email, Long> {
 
 }

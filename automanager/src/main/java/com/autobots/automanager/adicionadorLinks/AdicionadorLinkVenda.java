@@ -1,86 +1,37 @@
 package com.autobots.automanager.adicionadorLinks;
 
-import java.util.List;
+import com.autobots.automanager.controles.VendaControler;
+import com.autobots.automanager.entidades.Venda;
+import com.autobots.automanager.modelo.AdicionadorLink;
 
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
-import com.autobots.automanager.controles.VendaControle;
-import com.autobots.automanager.entitades.Venda;
-import com.autobots.automanager.modelo.AdicionadorLink;
+import java.util.List;
 
 @Component
 public class AdicionadorLinkVenda implements AdicionadorLink<Venda> {
-	
 	@Override
-	public void adicionarLink(List<Venda> lista) {
-		for (Venda objeto : lista) {
-			long id = objeto.getId();
-			Link linkProprioVenda = WebMvcLinkBuilder
+	public void adicionarLink (List<Venda> lista) {
+		for (Venda vendas : lista) {
+			Link linkVenda = WebMvcLinkBuilder
 					.linkTo(WebMvcLinkBuilder
-							.methodOn(VendaControle.class)
-							.obterVenda(id))
+							.methodOn(VendaControler.class)
+							.buscarPorId(vendas.getId()))
 					.withSelfRel();
-			Link linkProprioExcluir = WebMvcLinkBuilder
-					.linkTo(WebMvcLinkBuilder
-							.methodOn(VendaControle.class)
-							.excluirVenda(objeto, 1))
-					.withSelfRel();
-			Link linkProprioAtualizar = WebMvcLinkBuilder
-					.linkTo(WebMvcLinkBuilder
-							.methodOn(VendaControle.class)
-							.atualizarVenda(objeto))
-					.withSelfRel();
-			Link linkProprioCadastrar = WebMvcLinkBuilder
-					.linkTo(WebMvcLinkBuilder
-							.methodOn(VendaControle.class)
-							.cadastrarVenda(objeto, 1))
-					.withSelfRel();
-			Link linkProprioVendas = WebMvcLinkBuilder
-					.linkTo(WebMvcLinkBuilder
-							.methodOn(VendaControle.class)
-							.obterVendas())
-					.withSelfRel();
-			objeto.add(linkProprioVenda);
-			objeto.add(linkProprioExcluir);
-			objeto.add(linkProprioAtualizar);
-			objeto.add(linkProprioCadastrar);
-			objeto.add(linkProprioVendas);
+			vendas.add(linkVenda);
 		}
 	}
-
+	
 	@Override
-	public void adicionarLink(Venda objeto) {
-		Link linkProprioVenda = WebMvcLinkBuilder
+	public void adicionarLink (Venda venda) {
+		Link linkVenda = WebMvcLinkBuilder
 				.linkTo(WebMvcLinkBuilder
-						.methodOn(VendaControle.class)
-						.obterVenda(objeto.getId()))
-				.withRel("venda");
-		Link linkProprioVendas = WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder
-						.methodOn(VendaControle.class)
-						.obterVendas())
-				.withRel("vendas");
-		Link linkProprioCadastrar = WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder
-						.methodOn(VendaControle.class)
-						.cadastrarVenda(objeto, 1))
-				.withRel("cadastrar");
-		Link linkProprioAtualizar = WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder
-						.methodOn(VendaControle.class)
-						.atualizarVenda(objeto))
-				.withRel("atualizar");
-		Link linkProprioExcluir = WebMvcLinkBuilder
-				.linkTo(WebMvcLinkBuilder
-						.methodOn(VendaControle.class)
-						.excluirVenda(objeto, 1))
-				.withRel("excluir");
-		objeto.add(linkProprioVenda);
-		objeto.add(linkProprioVendas);
-		objeto.add(linkProprioCadastrar);
-		objeto.add(linkProprioAtualizar);
-		objeto.add(linkProprioExcluir);
+						.methodOn(VendaControler.class)
+						.buscarTodos())
+				.withRel("Todas Vendas");
+		venda.add(linkVenda);
 	}
+
 }

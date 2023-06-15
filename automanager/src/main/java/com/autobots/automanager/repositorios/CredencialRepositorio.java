@@ -1,9 +1,10 @@
 package com.autobots.automanager.repositorios;
 
+import com.autobots.automanager.entidades.CredencialUsuarioSenha;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.autobots.automanager.entitades.Credencial;
 
-public interface CredencialRepositorio extends JpaRepository<Credencial, Long>{
+
+public interface CredencialRepositorio extends JpaRepository<CredencialUsuarioSenha, Long> {
 
 }
