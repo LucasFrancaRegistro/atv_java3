@@ -56,14 +56,14 @@ public class UsuarioControler {
 	}
 	
 	
-	@GetMapping("/usuario")
+	@GetMapping("/usuarios")
 	public ResponseEntity<List<Usuario>> pegarTodos(){
 		List<Usuario> usuario = usuarioService.findAll();
 		adicionadorLinkUsuario.adicionarLink(usuario);
 		return new ResponseEntity<List<Usuario>>(usuario, HttpStatus.FOUND);
 	}
 	
-	@GetMapping("/uusarios/{id}")
+	@GetMapping("/usario/{id}")
 	public ResponseEntity<Usuario> pegarUm(@PathVariable Long id){
 		Usuario usuario = usuarioService.findById(id);
 		HttpStatus status = HttpStatus.CONFLICT;

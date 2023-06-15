@@ -52,7 +52,7 @@ public class DocumentoControle {
         }
     }
 
-    @PostMapping("/documento/cadastro")
+    @PostMapping("/cadastrar")
     public ResponseEntity<?> cadastrarDocumento(@RequestBody Documento documento) {
         HttpStatus status = HttpStatus.CONFLICT;
         if (documento.getId() == null) {
